@@ -171,6 +171,11 @@
   .contact .btn.dark { background: transparent; color: var(--ink); border-color: var(--ink); }
   .contact .btn.dark:hover { background: var(--ink); color: var(--ground); }
   .contact .small { margin-top: 18px; font-size: 15px; color: var(--muted); }
+  button.btn { cursor: pointer; }
+  .demo-panel { max-width: 680px; margin: 22px auto 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px; text-align: left; }
+  .demo-panel p { font-size: 16px; }
+  .demo-choices { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .demo-choices .btn { min-height: 44px; font-size: 15px; }
 
   /* Pied de page */
   footer { background: var(--ink); color: #A9AEB6; padding: 48px 0 40px; font-size: 14.5px; }
@@ -384,8 +389,9 @@
       <div class="avatar" aria-hidden="true">JS</div>
       <div>
         <p class="eyebrow">Qui est derrière</p>
-        <h2>Justin Simonetti, créateur d'Itinéos.</h2>
-        <p class="lead">J'ai construit Itinéos à partir des vraies fiches, consignes et bons de sortie d'un installateur d'alarme et de vidéosurveillance.</p>
+        <h2>Justin Simonetti, technicien de métier, créateur d'Itinéos.</h2>
+        <p class="lead">Avant d'écrire Itinéos, j'étais technicien sur le terrain. Les fiches remplies dans une cave sans réseau et la ressaisie du soir, je les ai vécues. Itinéos est conçu par un technicien, pour des techniciens.</p>
+        <p>Je l'ai construit à partir des vraies fiches, consignes et bons de sortie d'un installateur d'alarme et de vidéosurveillance.</p>
         <p>Je fais la démonstration, je reprends vos données, je forme vos techniciens et je réponds au téléphone. Quand vous appelez, c'est moi qui décroche.</p>
       </div>
     </div>
@@ -397,8 +403,18 @@
       <h2>30 minutes, sur vos propres documents.</h2>
       <p class="lead">Envoyez-moi une de vos fiches d'intervention ou un bon de sortie. Je vous montre la même fiche dans Itinéos, remplie sur téléphone, sans réseau.</p>
       <div class="actions">
-        <a class="btn" href="mailto:justin.simonetti@itineos.fr?subject=D%C3%A9monstration%20Itin%C3%A9os&amp;body=Bonjour%20Justin%2C%0A%0AEntreprise%20%3A%0ANombre%20de%20techniciens%20%3A%0ANombre%20d'agences%20%3A%0AT%C3%A9l%C3%A9phone%20%3A%0AMeilleur%20moment%20pour%20vous%20appeler%20%3A%0A">Demander une démonstration</a>
+        <button type="button" class="btn" id="demo-open" aria-expanded="false" aria-controls="demo-panel">Demander une démonstration</button>
         <a class="btn dark" href="tel:+33682011624">Appeler : 06 82 01 16 24</a>
+      </div>
+      <!-- Un lien « mailto » seul ne fait rien sans logiciel de messagerie (webmail) : on propose aussi Gmail, Outlook et la copie de l'adresse -->
+      <div class="demo-panel" id="demo-panel" hidden>
+        <p><strong>Écrivez-moi à justin.simonetti@itineos.fr</strong> en indiquant votre entreprise, votre nombre de techniciens et d'agences, et votre téléphone. Je vous rappelle pour fixer la démonstration.</p>
+        <div class="demo-choices">
+          <a class="btn" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&amp;to=justin.simonetti%40itineos.fr&amp;su=D%C3%A9monstration%20Itin%C3%A9os&amp;body=Bonjour%20Justin%2C%0A%0AEntreprise%20%3A%0ANombre%20de%20techniciens%20%3A%0ANombre%20d'agences%20%3A%0AT%C3%A9l%C3%A9phone%20%3A%0AMeilleur%20moment%20pour%20vous%20appeler%20%3A%0A">Avec Gmail</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://outlook.live.com/mail/0/deeplink/compose?to=justin.simonetti%40itineos.fr&amp;subject=D%C3%A9monstration%20Itin%C3%A9os&amp;body=Bonjour%20Justin%2C%0A%0AEntreprise%20%3A%0ANombre%20de%20techniciens%20%3A%0ANombre%20d'agences%20%3A%0AT%C3%A9l%C3%A9phone%20%3A%0AMeilleur%20moment%20pour%20vous%20appeler%20%3A%0A">Avec Outlook</a>
+          <a class="btn dark" href="mailto:justin.simonetti@itineos.fr?subject=D%C3%A9monstration%20Itin%C3%A9os&amp;body=Bonjour%20Justin%2C%0A%0AEntreprise%20%3A%0ANombre%20de%20techniciens%20%3A%0ANombre%20d'agences%20%3A%0AT%C3%A9l%C3%A9phone%20%3A%0AMeilleur%20moment%20pour%20vous%20appeler%20%3A%0A">Messagerie de l'ordinateur</a>
+          <button type="button" class="btn dark" id="demo-copy">Copier l'adresse</button>
+        </div>
       </div>
       <p class="small">justin.simonetti@itineos.fr · du lundi au vendredi, de 7 h 30 à 18 h</p>
     </div>
@@ -421,6 +437,28 @@
     </div>
   </div>
 </footer>
+
+<script>
+  // Panneau « Demander une démonstration » : choix de la messagerie, ou copie de l'adresse
+  (function () {
+    var open = document.getElementById('demo-open');
+    var panel = document.getElementById('demo-panel');
+    var copy = document.getElementById('demo-copy');
+    open.addEventListener('click', function () {
+      panel.hidden = !panel.hidden;
+      open.setAttribute('aria-expanded', String(!panel.hidden));
+      if (!panel.hidden) panel.scrollIntoView({ block: 'nearest' });
+    });
+    copy.addEventListener('click', function () {
+      var done = function () { copy.textContent = 'Adresse copiée'; };
+      if (navigator.clipboard) navigator.clipboard.writeText('justin.simonetti@itineos.fr').then(done, function () {});
+    });
+    // Le bouton du haut de page ouvre directement le panneau
+    document.querySelectorAll('a[href="#contact"]').forEach(function (a) {
+      a.addEventListener('click', function () { panel.hidden = false; open.setAttribute('aria-expanded', 'true'); });
+    });
+  })();
+</script>
 
 </body>
 </html>
