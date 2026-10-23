@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Itinéos · Le logiciel de terrain des installateurs d'alarme et de vidéosurveillance</title>
+<meta name="description" content="Vos techniciens remplissent vos propres fiches, consignes de télésurveillance et bons de sortie sur leur téléphone, même au sous-sol sans réseau. La facture est prête le soir même. Prix public, sans engagement.">
+<meta name="theme-color" content="#14181F">
+<link rel="icon" href="img/icone.svg" type="image/svg+xml">
+<link rel="icon" href="img/icone-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/icone-192.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Itinéos · Du terrain à la facture, le soir même">
+<meta property="og:description" content="Le logiciel de terrain des installateurs d'alarme et de vidéosurveillance. Vos documents, même sans réseau.">
+<meta property="og:url" content="https://itineos.fr/">
+<meta property="og:image" content="https://itineos.fr/img/partage.png">
+<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Polices hébergées sur le site (licence SIL OFL, voir fonts/LICENCE.txt) : aucun appel à Google */
+  @font-face { font-family: Archivo; src: url(fonts/archivo.woff2) format('woff2'); font-weight: 600 800; font-display: swap; }
+  @font-face { font-family: 'IBM Plex Sans'; src: url(fonts/ibm-plex-sans.woff2) format('woff2'); font-weight: 400 600; font-display: swap; }
+
+  :root {
+    --ink: #14181F;
+    --ink-2: #232934;
+    --ground: #F4F2EE;
+    --ground-2: #EAE6DE;
+    --card: #FFFFFF;
+    --rule: #DDD8CF;
+    --muted: #5B616B;
+    --signal: #F97316;      /* uniquement sur fond encre */
+    --accent: #C2410C;      /* boutons et liens sur fond clair */
+    --accent-text: #9A3412;
+    --radius: 12px;
+    --wrap: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font: 400 17px/1.6 'IBM Plex Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: Archivo, system-ui, sans-serif; line-height: 1.15; letter-spacing: -0.01em; margin: 0; }
+  h1 { font-weight: 800; font-size: clamp(34px, 5.4vw, 58px); }
+  h2 { font-weight: 800; font-size: clamp(27px, 3.6vw, 38px); }
+  h3 { font-weight: 600; font-size: 20px; }
+  p { margin: 0; }
+  a { color: var(--accent-text); }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 32px; } }
+  section { padding: 72px 0; scroll-margin-top: 68px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  .eyebrow { font: 600 14px/1 'IBM Plex Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 14px; }
+  .lead { font-size: 19px; color: var(--muted); max-width: 680px; margin-top: 16px; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 50px; padding: 12px 22px; border-radius: 10px; text-align: center;
+    font: 600 16px/1.3 'IBM Plex Sans', sans-serif; text-decoration: none;
+    background: var(--accent); color: #fff; border: 2px solid var(--accent);
+  }
+  .btn:hover { background: #A8380A; border-color: #A8380A; }
+  .btn.line { background: transparent; color: var(--ground); border-color: #5B616B; }
+  .btn.line:hover { border-color: var(--ground); }
+  a:focus-visible, .btn:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+
+  /* En-tête */
+  header { background: var(--ink); position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--ink-2); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+  header img { height: 52px; width: auto; display: block; margin-left: -8px; }
+  header nav { display: none; gap: 24px; }
+  header nav a { color: var(--ground); text-decoration: none; font-weight: 500; font-size: 15px; opacity: 0.85; }
+  header nav a:hover { opacity: 1; }
+  header .btn { min-height: 42px; padding: 0 16px; font-size: 15px; }
+  @media (min-width: 900px) { header nav { display: flex; } }
+
+  /* Ouverture */
+  .hero { background: var(--ink); color: var(--ground); padding: 56px 0 72px; }
+  .hero .wrap { display: grid; gap: 48px; align-items: center; }
+  @media (min-width: 900px) { .hero .wrap { grid-template-columns: 1.15fr 0.85fr; } }
+  .hero h1 .o { color: var(--signal); }
+  .hero .lead { color: #C9CDD3; }
+  .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .hero .note { margin-top: 18px; font-size: 15px; color: #A9AEB6; }
+
+  /* Téléphone (illustration, données fictives) */
+  .phone {
+    width: 100%; max-width: 330px; margin: 0 auto;
+    background: #0B0E13; border-radius: 34px; padding: 12px;
+    box-shadow: 0 0 0 1px #2E3542, 0 30px 60px rgba(0,0,0,0.45);
+  }
+  .screen { background: var(--ground); color: var(--ink); border-radius: 24px; overflow: hidden; font-size: 14px; }
+  .screen .bar { background: var(--ink); color: var(--ground); padding: 14px 16px 12px; }
+  .screen .bar b { font-family: Archivo, sans-serif; font-weight: 600; font-size: 16px; display: block; }
+  .screen .bar span { font-size: 12px; color: #A9AEB6; }
+  .offline { display: flex; align-items: center; gap: 8px; background: #FDE7DA; color: #8A3108; font-size: 12.5px; font-weight: 500; padding: 8px 16px; }
+  .offline i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .fields { padding: 14px 16px 6px; display: grid; gap: 10px; }
+  .field { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 8px 12px; }
+  .field small { display: block; color: var(--muted); font-size: 11.5px; }
+  .field strong { font-weight: 600; }
+  .checks { padding: 4px 16px 0; display: grid; gap: 6px; font-size: 13px; }
+  .checks div { display: flex; gap: 8px; align-items: center; }
+  .checks div::before { content: ''; width: 16px; height: 16px; border-radius: 4px; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; flex-shrink: 0; }
+  .sign { margin: 12px 16px 16px; border: 1.5px dashed #B8B2A7; border-radius: 10px; height: 72px; position: relative; }
+  .sign svg { position: absolute; left: 18px; top: 14px; }
+  .sign small { position: absolute; right: 10px; bottom: 6px; color: var(--muted); font-size: 11px; }
+  .caption { text-align: center; color: #8C929B; font-size: 12.5px; margin-top: 12px; }
+
+  /* Trois points */
+  .points { display: grid; gap: 20px; margin-top: 40px; }
+  @media (min-width: 720px) { .points { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .points { grid-template-columns: repeat(4, 1fr); } }
+  .point { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 24px; }
+  .point .n { font: 800 15px/1 Archivo, sans-serif; color: var(--accent-text); margin-bottom: 14px; }
+  .point p { color: var(--muted); margin-top: 10px; font-size: 16px; }
+  .honest { margin-top: 28px; border-left: 4px solid var(--accent); background: var(--card); padding: 16px 20px; border-radius: 0 var(--radius) var(--radius) 0; font-size: 16px; }
+
+  /* Fondateurs */
+  .founders { background: var(--ground-2); }
+  .founders .wrap { display: grid; gap: 40px; }
+  @media (min-width: 900px) { .founders .wrap { grid-template-columns: 1fr 1fr; align-items: start; } }
+  .seats { display: inline-flex; align-items: baseline; gap: 10px; background: var(--ink); color: var(--ground); border-radius: 10px; padding: 12px 18px; margin-top: 22px; }
+  .seats b { font: 800 32px/1 Archivo, sans-serif; color: var(--signal); }
+  ul.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  ul.list li { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px 14px 46px; position: relative; }
+  ul.list li::before { content: ''; position: absolute; left: 16px; top: 18px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat; }
+  ul.list li span { display: block; color: var(--muted); font-size: 15px; }
+  .exchange { margin-top: 18px; font-size: 15px; color: var(--muted); }
+
+  /* Prix */
+  .plans { display: grid; gap: 20px; margin-top: 40px; }
+  @media (min-width: 900px) { .plans { grid-template-columns: repeat(3, 1fr); } }
+  .plan { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 26px; display: flex; flex-direction: column; }
+  .plan.best { border: 2px solid var(--accent); position: relative; }
+  .plan.best .tag { position: absolute; top: -13px; left: 24px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 6px; }
+  .price { margin: 14px 0 4px; font: 800 44px/1 Archivo, sans-serif; }
+  .price small { font: 500 15px/1.3 'IBM Plex Sans', sans-serif; color: var(--muted); display: block; margin-top: 6px; }
+  .plan .for { color: var(--muted); font-size: 15px; margin-top: 10px; }
+  .plan ul { margin: 18px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: 15.5px; }
+  .terms { margin-top: 28px; display: grid; gap: 8px; font-size: 15.5px; color: var(--muted); }
+
+  /* Garanties */
+  .guar { background: var(--ink); color: var(--ground); }
+  .guar .eyebrow { color: var(--signal); }
+  .guar .lead { color: #C9CDD3; }
+  .guar-grid { display: grid; gap: 20px; margin-top: 40px; }
+  @media (min-width: 720px) { .guar-grid { grid-template-columns: repeat(2, 1fr); } }
+  .g { border: 1px solid #2E3542; border-radius: var(--radius); padding: 24px; background: var(--ink-2); }
+  .g h3 { color: var(--ground); }
+  .g p { color: #C9CDD3; margin-top: 10px; font-size: 16px; }
+  .g .status { display: inline-block; margin-top: 12px; font-size: 13px; color: var(--signal); }
+
+  /* Qui est derrière */
+  .who .wrap { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 900px) { .who .wrap { grid-template-columns: 220px 1fr; } }
+  .avatar { width: 180px; height: 180px; border-radius: 50%; background: var(--ink); color: var(--signal); display: grid; place-items: center; font: 800 56px/1 Archivo, sans-serif; overflow: hidden; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .who p + p { margin-top: 14px; }
+  .who .lead { margin-top: 12px; }
+
+  /* Contact */
+  .contact { background: var(--ground-2); text-align: center; }
+  .contact .lead { margin-left: auto; margin-right: auto; }
+  .contact .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+  .contact .btn.dark { background: transparent; color: var(--ink); border-color: var(--ink); }
+  .contact .btn.dark:hover { background: var(--ink); color: var(--ground); }
+  .contact .small { margin-top: 18px; font-size: 15px; color: var(--muted); }
+
+  /* Pied de page */
+  footer { background: var(--ink); color: #A9AEB6; padding: 48px 0 40px; font-size: 14.5px; }
+  footer .wrap { display: grid; gap: 28px; }
+  @media (min-width: 900px) { footer .wrap { grid-template-columns: 1fr 2fr; } }
+  footer img { height: 36px; width: auto; }
+  footer h3 { color: var(--ground); font-size: 16px; margin-bottom: 10px; }
+  footer p + p { margin-top: 8px; }
+  footer a { color: var(--ground); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#haut" aria-label="Itinéos, retour en haut"><img src="img/logo.svg" alt="Itinéos" width="160" height="40"></a>
+    <nav aria-label="Sommaire">
+      <a href="#comment">Comment ça marche</a>
+      <a href="#fondateurs">Installateurs fondateurs</a>
+      <a href="#prix">Prix</a>
+      <a href="#garanties">Garanties</a>
+      <a href="#createur">Qui est derrière</a>
+    </nav>
+    <a class="btn" href="#contact">Démonstration</a>
+  </div>
+</header>
+
+<main id="haut">
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow" style="color: var(--signal);">Pour les installateurs d'alarme et de vidéosurveillance</p>
+        <h1>Du terrain à la facture, <span class="o">le soir même.</span></h1>
+        <p class="lead">Votre technicien ouvre la fiche au sous-sol, sans réseau : le site, la centrale et le numéro d'abonné sont déjà remplis. Le client signe, le PDF part tout seul, et le soir la facture est prête.</p>
+        <div class="actions">
+          <a class="btn" href="#contact">Une démonstration de 30 minutes sur vos documents</a>
+          <a class="btn line" href="#prix">Voir les prix</a>
+        </div>
+        <p class="note">Vos propres fiches, consignes de télésurveillance et bons de sortie, avec votre logo et vos mentions CNAPS. Prix public, sans engagement.</p>
+      </div>
+
+      <figure style="margin:0">
+        <div class="phone" role="img" aria-label="Illustration : une fiche d'intervention remplie sur téléphone, sans réseau, avec la signature du client">
+          <div class="screen">
+            <div class="bar"><b>Maintenance annuelle</b><span>Mardi 8 h 30 · Agence de Dijon</span></div>
+            <div class="offline"><i></i>Hors réseau : la fiche partira au retour du réseau</div>
+            <div class="fields">
+              <div class="field"><small>Site</small><strong>Pharmacie des Tilleuls</strong> · sous-sol</div>
+              <div class="field"><small>Centrale · n° de série</small><strong>Intrusion 8 zones</strong> · 1A2B-3C4D</div>
+              <div class="field"><small>N° d'abonné télésurveillance</small><strong>TS-04512</strong></div>
+            </div>
+            <div class="checks">
+              <div>Test des détecteurs</div>
+              <div>Batterie remplacée</div>
+              <div>Transmission vérifiée avec le télésurveilleur</div>
+            </div>
+            <div class="sign">
+              <svg width="150" height="40" viewBox="0 0 150 40" aria-hidden="true"><path d="M4 30c10-18 18-22 22-12s-4 16 4 8 12-22 18-14-2 18 8 10 10-12 18-8 6 8 14 2 14-10 24-6" fill="none" stroke="#14181F" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <small>Signature du client</small>
+            </div>
+          </div>
+        </div>
+        <figcaption class="caption">Illustration avec des données fictives.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Emplacement prévu pour la vidéo de 30 secondes (fiche remplie au sous-sol, voir founder/marketing.md). -->
+
+  <section id="comment">
+    <div class="wrap">
+      <p class="eyebrow">Comment ça marche</p>
+      <h2>Vos documents, sur le terrain, même sans réseau.</h2>
+      <p class="lead">Itinéos réunit le bureau et l'appli du technicien. Il reprend ce que vous utilisez déjà, au lieu de vous imposer des formulaires génériques.</p>
+
+      <div class="points">
+        <div class="point">
+          <div class="n">01</div>
+          <h3>Vos propres documents</h3>
+          <p>Fiches d'intervention, consignes de télésurveillance et bons de sortie repris tels quels, avec votre logo et vos mentions CNAPS.</p>
+        </div>
+        <div class="point">
+          <div class="n">02</div>
+          <h3>Même au sous-sol</h3>
+          <p>L'appli marche sans réseau. La fiche, les photos et la signature partent dès que le téléphone retrouve le réseau.</p>
+        </div>
+        <div class="point">
+          <div class="n">03</div>
+          <h3>La facture le soir même</h3>
+          <p>Le client signe, le PDF lui est envoyé aussitôt. Au bureau : devis, contrats de maintenance et factures Factur-X.</p>
+        </div>
+        <div class="point">
+          <div class="n">04</div>
+          <h3>Toutes vos agences, un seul planning</h3>
+          <p>Vous ouvrez une agence ? Le multi-agences est inclus dans toutes les formules, avec le stock par camionnette.</p>
+        </div>
+      </div>
+
+      <p class="honest"><strong>Ce qu'Itinéos ne fait pas encore :</strong> le prélèvement SEPA automatique des abonnements de télésurveillance. Si votre ERP le fait déjà, la formule Terrain se branche à côté, avec un export vers votre ERP, au lieu de le remplacer.</p>
+    </div>
+  </section>
+
+  <section id="fondateurs" class="founders">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Programme « Installateurs fondateurs »</p>
+        <h2>5 installateurs, jusqu'au 31 mars 2027.</h2>
+        <p class="lead">Je mets moi-même Itinéos en place chez chaque fondateur. Je ne peux pas le faire pour plus de cinq entreprises à la fois : c'est pour ça que le nombre de places est limité.</p>
+        <!-- Mettre à jour à chaque essai signé : le nombre affiché doit toujours être le vrai. -->
+        <div class="seats"><b>5</b> places sur 5 encore libres</div>
+        <p class="exchange">Les essais commencent le 11 janvier 2027. Vous pouvez réserver une démonstration dès maintenant.</p>
+      </div>
+      <div>
+        <ul class="list">
+          <li><strong>60 jours d'essai sur une seule agence</strong><span>Vous arrêtez sans frais si vos techniciens n'en veulent pas.</span></li>
+          <li><strong>La reprise faite pour vous</strong><span>Je reprends moi-même vos clients, sites, centrales et documents.</span></li>
+          <li><strong>Une demi-journée de formation sur place</strong><span>Avec vos techniciens, sur une vraie intervention, sans réseau.</span></li>
+          <li><strong>La mise en service offerte</strong><span>Réservé aux installateurs fondateurs.</span></li>
+          <li><strong>Le prix bloqué 24 mois</strong><span>Le prix de la grille, garanti : ce n'est pas une remise.</span></li>
+        </ul>
+        <p class="exchange">En échange : un retour écrit de vos techniciens et de vous-même et, si vous restez, votre accord écrit pour être cité. Les premières références d'Itinéos dans le métier, ce seront les fondateurs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="prix">
+    <div class="wrap">
+      <p class="eyebrow">Prix</p>
+      <h2>Un prix public, par technicien, sans engagement.</h2>
+      <p class="lead">Par technicien de terrain et par mois, hors taxes. Le bureau est illimité : planning, assistante et direction ne comptent pas.</p>
+
+      <div class="plans">
+        <div class="plan">
+          <h3>Terrain</h3>
+          <div class="price">25 €<small>HT par technicien et par mois</small></div>
+          <p class="for">Si vous gardez votre ERP ou votre logiciel de facturation.</p>
+          <ul>
+            <li>Planning par agence</li>
+            <li>Appli du technicien, sans réseau</li>
+            <li>Fiches d'intervention, consignes de télésurveillance, bons de sortie</li>
+            <li>Parc, n° de série et n° d'abonné</li>
+            <li>Export vers votre ERP</li>
+          </ul>
+        </div>
+        <div class="plan best">
+          <span class="tag">Recommandée</span>
+          <h3>Sécurité</h3>
+          <div class="price">39 €<small>HT par technicien et par mois</small></div>
+          <p class="for">Pour la plupart des installateurs.</p>
+          <ul>
+            <li>Tout Terrain</li>
+            <li>Devis et contrats de maintenance</li>
+            <li>Factures Factur-X</li>
+            <li>Espace client en ligne</li>
+            <li>Stock par camionnette</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <h3>Groupe</h3>
+          <div class="price">49 €<small>HT par technicien et par mois</small></div>
+          <p class="for">Plusieurs sociétés, plus de 25 techniciens.</p>
+          <ul>
+            <li>Tout Sécurité</li>
+            <li>Plusieurs sociétés</li>
+            <li>Habilitations des techniciens</li>
+            <li>Parc de véhicules</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="terms">
+        <p>Multi-agences inclus dans toutes les formules. −15 % sur chaque technicien au-delà du 20e. −10 % avec un engagement de 12 mois, si vous le choisissez.</p>
+        <p>Le prix affiché est celui que vous payez : pas de prix barré, pas de frais cachés.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="garanties" class="guar">
+    <div class="wrap">
+      <p class="eyebrow">Garanties</p>
+      <h2>Ce que votre contrat vous garantit.</h2>
+      <p class="lead">Changer de logiciel, c'est confier votre planning, vos contrats et vos abonnés. Voici, par écrit, ce qui se passe si quelque chose ne va pas.</p>
+
+      <div class="guar-grid">
+        <div class="g">
+          <h3>Vos données vous appartiennent</h3>
+          <p>Export complet de toutes vos données en fichiers standards (tableaux et PDF) sous 5 jours ouvrés, à tout moment, sans justification.</p>
+        </div>
+        <div class="g">
+          <h3>Une réponse sous 4 heures ouvrées</h3>
+          <p>Le support répond par téléphone ou par e-mail dans les 4 heures ouvrées, dès 7 h 30, quand vos techniciens commencent.</p>
+        </div>
+        <div class="g">
+          <h3>Hébergé en France, ou chez vous</h3>
+          <p>Serveur en France avec une sauvegarde chaque nuit, copiée hors du serveur. Ou installé sur un serveur dans vos locaux, si vous préférez.</p>
+        </div>
+        <div class="g">
+          <h3>Si l'éditeur s'arrête</h3>
+          <p>Le code source est déposé chez un tiers de confiance et vous est remis si l'éditeur cesse son activité. Un support de secours est nommé dans votre contrat.</p>
+          <!-- Retirer cette mention « en cours » une fois le contrat de dépôt et l'astreinte signés (voir founder/launch.md). -->
+          <span class="status">Contrat de dépôt et support de secours en cours de mise en place, signés avant les premiers essais.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="createur" class="who">
+    <div class="wrap">
+      <!-- Remplacer les initiales par ta photo : <img src="img/justin.jpg" alt="Justin Simonetti"> -->
+      <div class="avatar" aria-hidden="true">JS</div>
+      <div>
+        <p class="eyebrow">Qui est derrière</p>
+        <h2>Justin Simonetti, créateur d'Itinéos.</h2>
+        <p class="lead">J'ai construit Itinéos à partir des vraies fiches, consignes et bons de sortie d'un installateur d'alarme et de vidéosurveillance.</p>
+        <p>Je fais la démonstration, je reprends vos données, je forme vos techniciens et je réponds au téléphone. Quand vous appelez, c'est moi qui décroche.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <p class="eyebrow">Démonstration</p>
+      <h2>30 minutes, sur vos propres documents.</h2>
+      <p class="lead">Envoyez-moi une de vos fiches d'intervention ou un bon de sortie. Je vous montre la même fiche dans Itinéos, remplie sur téléphone, sans réseau.</p>
+      <div class="actions">
+        <a class="btn" href="mailto:justin.simonetti@itineos.fr?subject=D%C3%A9monstration%20Itin%C3%A9os&amp;body=Bonjour%20Justin%2C%0A%0AEntreprise%20%3A%0ANombre%20de%20techniciens%20%3A%0ANombre%20d'agences%20%3A%0AT%C3%A9l%C3%A9phone%20%3A%0AMeilleur%20moment%20pour%20vous%20appeler%20%3A%0A">Demander une démonstration</a>
+        <a class="btn dark" href="tel:+33682011624">Appeler : 06 82 01 16 24</a>
+      </div>
+      <p class="small">justin.simonetti@itineos.fr · du lundi au vendredi, de 7 h 30 à 18 h</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <img src="img/logo.svg" alt="Itinéos" width="144" height="36">
+      <p style="margin-top:14px">Le logiciel de terrain des installateurs d'alarme et de vidéosurveillance.</p>
+    </div>
+    <div id="mentions">
+      <h3>Mentions légales</h3>
+      <p><strong>Éditeur :</strong> Justin Simonetti EI (entrepreneur individuel), SIRET 828 806 364 00034, 25 Grande Rue, 89340 Villeblevin, France. Contact : <a href="mailto:justin.simonetti@itineos.fr">justin.simonetti@itineos.fr</a>, <a href="tel:+33682011624">06 82 01 16 24</a>. Directeur de la publication : Justin Simonetti.</p>
+      <p><strong>Hébergeur :</strong> GitHub, Inc. (service GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis. Nom de domaine enregistré chez IONOS SARL, 7 place de la Gare, BP 70109, 57200 Sarreguemines Cedex, France.</p>
+      <p><strong>Données personnelles :</strong> ce site n'utilise ni cookie, ni outil de mesure d'audience, ni police ou service externe. Comme tout hébergeur, GitHub peut enregistrer l'adresse IP des visiteurs pour la sécurité du service. Les e-mails que vous m'envoyez servent seulement à vous répondre.</p>
+      <p>© 2026 Itinéos</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
