@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garanties · Itinéos</title>
+<meta name="description" content="Ce que le contrat Itinéos vous garantit, avec les preuves : dépôt du code source, support de secours, dernière restauration de sauvegarde réussie, délai de réponse mesuré.">
+<meta name="theme-color" content="#14181F">
+<link rel="icon" href="img/icone.svg" type="image/svg+xml">
+<link rel="icon" href="img/icone-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/icone-192.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Garanties · Itinéos">
+<meta property="og:description" content="Nos engagements par écrit, et les preuves que vous pouvez vérifier.">
+<meta property="og:url" content="https://itineos.fr/garanties.html">
+<meta property="og:image" content="https://itineos.fr/img/partage.png">
+<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: Archivo; src: url(fonts/archivo.woff2) format('woff2'); font-weight: 600 800; font-display: swap; }
+  @font-face { font-family: 'IBM Plex Sans'; src: url(fonts/ibm-plex-sans.woff2) format('woff2'); font-weight: 400 600; font-display: swap; }
+  :root {
+    --ink: #14181F; --ink-2: #232934; --ground: #F4F2EE; --ground-2: #EAE6DE; --card: #FFFFFF;
+    --rule: #DDD8CF; --muted: #5B616B; --signal: #F97316; --accent: #C2410C; --accent-text: #9A3412;
+    --ok: #166534; --ok-bg: #E3F1E6; --wait: #8A3108; --wait-bg: #FDE7DA;
+    --radius: 12px; --wrap: 1120px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 17px/1.6 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: Archivo, system-ui, sans-serif; line-height: 1.15; letter-spacing: -0.01em; margin: 0; }
+  h1 { font-weight: 800; font-size: clamp(32px, 5vw, 52px); }
+  h2 { font-weight: 800; font-size: clamp(26px, 3.4vw, 36px); }
+  h3 { font-weight: 600; font-size: 20px; }
+  p { margin: 0; }
+  a { color: var(--accent-text); }
+  a:focus-visible, .btn:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 32px; } }
+  section { padding: 64px 0; }
+  .eyebrow { font: 600 14px/1 'IBM Plex Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 14px; }
+  .lead { font-size: 19px; color: var(--muted); max-width: 700px; margin-top: 16px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 16px; border-radius: 10px; font: 600 15px/1.3 'IBM Plex Sans', sans-serif; text-decoration: none; background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+  .btn:hover { background: #A8380A; border-color: #A8380A; }
+
+  header { background: var(--ink); position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--ink-2); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+  header img { height: 52px; width: auto; display: block; margin-left: -8px; }
+  header nav { display: none; gap: 24px; }
+  header nav a { color: var(--ground); text-decoration: none; font-weight: 500; font-size: 15px; opacity: 0.85; }
+  header nav a:hover, header nav a[aria-current] { opacity: 1; }
+  @media (min-width: 900px) { header nav { display: flex; } }
+
+  .hero { background: var(--ink); color: var(--ground); padding: 56px 0 64px; }
+  .hero .eyebrow { color: var(--signal); }
+  .hero .lead { color: #C9CDD3; }
+
+  .grid { display: grid; gap: 20px; margin-top: 36px; }
+  @media (min-width: 720px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  .card { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 24px; }
+  .card p { color: var(--muted); margin-top: 10px; font-size: 16px; }
+
+  .proof { display: flex; flex-direction: column; gap: 4px; }
+  .proof .value { font: 800 26px/1.2 Archivo, sans-serif; margin-top: 14px; color: var(--ink); }
+  .proof .detail { color: var(--muted); font-size: 15px; }
+  .badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px; margin-top: 14px; }
+  .badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .badge.ok { color: var(--ok); background: var(--ok-bg); }
+  .badge.wait { color: var(--wait); background: var(--wait-bg); }
+
+  .honest { margin-top: 28px; border-left: 4px solid var(--accent); background: var(--card); padding: 16px 20px; border-radius: 0 var(--radius) var(--radius) 0; font-size: 16px; }
+  .meta { margin-top: 18px; font-size: 14.5px; color: var(--muted); }
+
+  footer { background: var(--ink); color: #A9AEB6; padding: 40px 0; font-size: 14.5px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; }
+  footer img { height: 36px; width: auto; }
+  footer a { color: var(--ground); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" aria-label="Itinéos, page d'accueil"><img src="img/logo.svg" alt="Itinéos" width="160" height="40"></a>
+    <nav aria-label="Sommaire">
+      <a href="index.html#comment">Comment ça marche</a>
+      <a href="index.html#prix">Prix</a>
+      <a href="garanties.html" aria-current="page">Garanties</a>
+      <a href="etat.html">État du service</a>
+    </nav>
+    <a class="btn" href="index.html#contact">Démonstration</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Garanties</p>
+      <h1>Nos engagements, et les preuves.</h1>
+      <p class="lead">Confier votre planning, vos contrats et vos abonnés à un petit éditeur, c'est un risque. Cette page dit par écrit ce qui est garanti, et montre ce qui est déjà en place. Ce qui ne l'est pas encore est marqué comme tel.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Ce que votre contrat garantit</p>
+      <h2>Quatre engagements écrits.</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Vos données vous appartiennent</h3>
+          <p>Export complet de toutes vos données en fichiers standards (tableaux et PDF) sous 5 jours ouvrés, à tout moment, sans justification.</p>
+        </div>
+        <div class="card">
+          <h3>Une réponse sous 4 heures ouvrées</h3>
+          <p>Le support répond par téléphone ou par e-mail dans les 4 heures ouvrées, dès 7 h 30, quand vos techniciens commencent.</p>
+        </div>
+        <div class="card">
+          <h3>Hébergé en France, ou chez vous</h3>
+          <p>Serveur en France avec une sauvegarde chaque nuit. Ou installé sur un serveur dans vos locaux, si vous préférez.</p>
+        </div>
+        <div class="card">
+          <h3>Si l'éditeur s'arrête</h3>
+          <p>Le code source est déposé chez un tiers de confiance et vous est remis si l'éditeur cesse son activité. Un support de secours est nommé dans votre contrat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: var(--ground-2);">
+    <div class="wrap">
+      <p class="eyebrow">Les preuves</p>
+      <h2>Ce que vous pouvez vérifier aujourd'hui.</h2>
+      <p class="lead">Ces quatre valeurs sont mises à jour par la console de supervision d'Itinéos, pas écrites à la main.</p>
+
+      <div class="grid" id="preuves" aria-live="polite">
+        <div class="card proof" id="p-sequestre">
+          <h3>Dépôt du code source</h3>
+          <span class="value">…</span><span class="detail"></span>
+        </div>
+        <div class="card proof" id="p-secours">
+          <h3>Support de secours</h3>
+          <span class="value">…</span><span class="detail"></span>
+        </div>
+        <div class="card proof" id="p-restauration">
+          <h3>Dernière restauration réussie</h3>
+          <span class="value">…</span><span class="detail"></span>
+        </div>
+        <div class="card proof" id="p-support">
+          <h3>Délai de réponse mesuré</h3>
+          <span class="value">…</span><span class="detail"></span>
+        </div>
+      </div>
+
+      <noscript><p class="honest">Activez JavaScript pour voir les valeurs à jour, ou ouvrez directement le fichier <a href="garanties.json">garanties.json</a>.</p></noscript>
+
+      <p class="honest"><strong>Pourquoi une restauration, et pas seulement une sauvegarde ?</strong> Une sauvegarde qu'on n'a jamais restaurée ne prouve rien. Chaque mois, Itinéos restaure la sauvegarde de la nuit sur un serveur vide et vérifie que tout s'ouvre. La date affichée est celle du dernier essai réussi.</p>
+      <p class="meta" id="maj"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo.svg" alt="Itinéos" width="144" height="36">
+    <p><a href="etat.html">État du service</a> · <a href="index.html#mentions">Mentions légales</a> · © 2026 Itinéos</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    function date(iso) {
+      if (!iso) return null;
+      var d = new Date(iso.length === 10 ? iso + 'T12:00:00' : iso);
+      if (isNaN(d)) return null;
+      return d.getDate() + (d.getDate() === 1 ? 'er ' : ' ') + mois[d.getMonth()] + ' ' + d.getFullYear();
+    }
+    function fill(id, value, detail, ok, html) {
+      var el = document.getElementById(id);
+      el.querySelector('.value').textContent = value;
+      var det = el.querySelector('.detail');
+      if (html) det.innerHTML = html; else det.textContent = detail || '';
+      var b = document.createElement('span');
+      b.className = 'badge ' + (ok ? 'ok' : 'wait');
+      b.textContent = ok ? 'En place' : 'En cours de mise en place';
+      el.appendChild(b);
+    }
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+
+    fetch('garanties.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (g) {
+      var s = g.sequestre || {};
+      if (s.statut === 'signe' && s.tiers) {
+        var html = 'Chez ' + esc(s.tiers) + (s.depose_le ? ', dernière version déposée le ' + esc(date(s.depose_le)) : '') + '.';
+        if (s.attestation_url) html += ' <a href="' + esc(s.attestation_url) + '">Voir l\'attestation</a>';
+        fill('p-sequestre', 'Déposé', null, true, html);
+      } else {
+        fill('p-sequestre', 'Pas encore signé', 'Le contrat de dépôt sera signé avant les premiers essais. Le nom du tiers et l\'attestation s\'afficheront ici.', false);
+      }
+
+      var sec = g.support_secours || {};
+      if (sec.statut === 'signe' && sec.societe) {
+        fill('p-secours', sec.societe, 'Nommée dans votre contrat, elle prend le relais si l\'éditeur ne peut plus assurer le support.', true);
+      } else {
+        fill('p-secours', 'Pas encore choisi', 'La société de support de secours sera nommée ici avant les premiers essais.', false);
+      }
+
+      var sv = g.sauvegarde || {};
+      var dr = date(sv.derniere_restauration_reussie);
+      if (dr) {
+        fill('p-restauration', dr, 'Sauvegarde ' + (sv.frequence || 'chaque nuit') + (sv.hors_site_chiffree ? ', chiffrée et copiée hors site.' : '.'), true);
+      } else {
+        fill('p-restauration', 'Pas encore de mesure', 'Le premier essai de restauration aura lieu avant l\'ouverture du service.', false);
+      }
+
+      var sp = g.support || {};
+      if (sp.delai_median_minutes != null && sp.demandes_mesurees > 0) {
+        var m = sp.delai_median_minutes;
+        var txt = m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60 ? (m % 60) + ' min' : '');
+        fill('p-support', txt.trim(), 'Délai médian de première réponse, sur ' + sp.demandes_mesurees + ' demandes' + (sp.periode ? ' (' + sp.periode + ')' : '') + '. Engagement : ' + sp.engagement_heures_ouvrees + ' h ouvrées.', true);
+      } else {
+        fill('p-support', 'Pas encore de mesure', 'Le délai réel sera mesuré dès les premières demandes des clients. Engagement : ' + (sp.engagement_heures_ouvrees || 4) + ' h ouvrées.', false);
+      }
+
+      var maj = date(g.mis_a_jour);
+      if (maj) document.getElementById('maj').textContent = 'Valeurs mises à jour le ' + maj + '. Source : garanties.json.';
+    }).catch(function () {
+      document.getElementById('maj').innerHTML = 'Les valeurs n\'ont pas pu être chargées. Consultez <a href="garanties.json">garanties.json</a>.';
+    });
+  })();
+</script>
+</body>
+</html>
