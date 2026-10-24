@@ -1,0 +1,26 @@
+{
+  "mis_a_jour": "2026-10-24",
+  "sequestre": {
+    "statut": "en_cours",
+    "tiers": null,
+    "attestation_url": null,
+    "derniere_version_deposee": null,
+    "depose_le": null
+  },
+  "support_secours": {
+    "statut": "en_cours",
+    "societe": null,
+    "site": null
+  },
+  "sauvegarde": {
+    "frequence": "chaque nuit",
+    "hors_site_chiffree": false,
+    "derniere_restauration_reussie": null
+  },
+  "support": {
+    "engagement_heures_ouvrees": 4,
+    "delai_median_minutes": null,
+    "demandes_mesurees": 0,
+    "periode": null
+  }
+}
