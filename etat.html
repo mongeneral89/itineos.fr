@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>État du service · Itinéos</title>
+<meta name="description" content="Disponibilité d'Itinéos en temps réel et historique des incidents, alimentés par la console de supervision.">
+<meta name="theme-color" content="#14181F">
+<link rel="icon" href="img/icone.svg" type="image/svg+xml">
+<link rel="icon" href="img/icone-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/icone-192.png">
+<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: Archivo; src: url(fonts/archivo.woff2) format('woff2'); font-weight: 600 800; font-display: swap; }
+  @font-face { font-family: 'IBM Plex Sans'; src: url(fonts/ibm-plex-sans.woff2) format('woff2'); font-weight: 400 600; font-display: swap; }
+  :root {
+    --ink: #14181F; --ink-2: #232934; --ground: #F4F2EE; --ground-2: #EAE6DE; --card: #FFFFFF;
+    --rule: #DDD8CF; --muted: #5B616B; --signal: #F97316; --accent: #C2410C; --accent-text: #9A3412;
+    --ok: #166534; --ok-bg: #E3F1E6; --warn: #854D0E; --warn-bg: #FBF0D5; --bad: #991B1B; --bad-bg: #FBE4E4;
+    --idle: #4B5260; --idle-bg: #E9E7E2;
+    --radius: 12px; --wrap: 880px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 17px/1.6 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: Archivo, system-ui, sans-serif; line-height: 1.15; letter-spacing: -0.01em; margin: 0; }
+  h1 { font-weight: 800; font-size: clamp(30px, 4.6vw, 46px); }
+  h2 { font-weight: 800; font-size: 24px; margin-bottom: 16px; }
+  p { margin: 0; }
+  a { color: var(--accent-text); }
+  a:focus-visible, .btn:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 32px; } }
+  section { padding: 40px 0; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 16px; border-radius: 10px; font: 600 15px/1.3 'IBM Plex Sans', sans-serif; text-decoration: none; background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+
+  header { background: var(--ink); border-bottom: 1px solid var(--ink-2); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; max-width: 1120px; }
+  header img { height: 52px; width: auto; display: block; margin-left: -8px; }
+  header nav { display: none; gap: 24px; }
+  header nav a { color: var(--ground); text-decoration: none; font-weight: 500; font-size: 15px; opacity: 0.85; }
+  header nav a[aria-current] { opacity: 1; }
+  @media (min-width: 900px) { header nav { display: flex; } }
+
+  .hero { background: var(--ink); color: var(--ground); padding: 44px 0 48px; }
+  .summary { display: flex; align-items: center; gap: 14px; margin-top: 22px; padding: 16px 20px; border-radius: var(--radius); font-weight: 600; font-size: 18px; }
+  .summary::before { content: ''; width: 14px; height: 14px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  .s-ok { color: var(--ok); background: var(--ok-bg); }
+  .s-degrade { color: var(--warn); background: var(--warn-bg); }
+  .s-panne { color: var(--bad); background: var(--bad-bg); }
+  .s-idle { color: var(--idle); background: var(--idle-bg); }
+
+  .services { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); }
+  .service { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; }
+  .service + .service { border-top: 1px solid var(--rule); }
+  .pill { font-size: 13.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+
+  .uptime { margin-top: 16px; font-size: 15.5px; color: var(--muted); }
+  .incident { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px 20px; }
+  .incident + .incident { margin-top: 12px; }
+  .incident h3 { font-size: 17px; }
+  .incident .when { color: var(--muted); font-size: 14.5px; margin-top: 4px; }
+  .incident p { margin-top: 10px; font-size: 16px; }
+  .empty { color: var(--muted); }
+  .meta { margin-top: 10px; font-size: 14.5px; color: #A9AEB6; }
+  .stale { margin-top: 14px; padding: 12px 16px; border-radius: 10px; background: var(--warn-bg); color: var(--warn); font-size: 15.5px; }
+
+  footer { background: var(--ink); color: #A9AEB6; padding: 36px 0; font-size: 14.5px; margin-top: 32px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; max-width: 1120px; }
+  footer img { height: 36px; width: auto; }
+  footer a { color: var(--ground); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" aria-label="Itinéos, page d'accueil"><img src="img/logo.svg" alt="Itinéos" width="160" height="40"></a>
+    <nav aria-label="Sommaire">
+      <a href="index.html#prix">Prix</a>
+      <a href="garanties.html">Garanties</a>
+      <a href="etat.html" aria-current="page">État du service</a>
+    </nav>
+    <a class="btn" href="index.html#contact">Démonstration</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>État du service</h1>
+      <div class="summary s-idle" id="resume" role="status">Chargement…</div>
+      <p class="meta" id="maj"></p>
+      <div class="stale" id="perime" hidden>Ces informations ont plus de 15 minutes : la console de supervision ne les a pas mises à jour. Si vous rencontrez un problème, appelez le 06 82 01 16 24.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Services</h2>
+      <div class="services" id="services"></div>
+      <p class="uptime" id="dispo"></p>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <h2>Incidents des 90 derniers jours</h2>
+      <div id="incidents"><p class="empty">Chargement…</p></div>
+    </div>
+  </section>
+  <noscript><div class="wrap"><p>Activez JavaScript, ou consultez directement <a href="etat.json">etat.json</a>.</p></div></noscript>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo.svg" alt="Itinéos" width="144" height="36">
+    <p><a href="garanties.html">Garanties</a> · <a href="index.html#mentions">Mentions légales</a> · © 2026 Itinéos</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var LIB = {
+      ok: ['Opérationnel', 's-ok'],
+      degrade: ['Ralenti', 's-degrade'],
+      panne: ['Interrompu', 's-panne'],
+      maintenance: ['Maintenance prévue', 's-degrade'],
+      pas_ouvert: ['Pas encore ouvert', 's-idle'],
+      inconnu: ['Inconnu', 's-idle']
+    };
+    var mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    function quand(iso, heure) {
+      if (!iso) return '';
+      var d = new Date(iso.length === 10 ? iso + 'T12:00:00' : iso);
+      if (isNaN(d)) return '';
+      var s = d.getDate() + (d.getDate() === 1 ? 'er ' : ' ') + mois[d.getMonth()] + ' ' + d.getFullYear();
+      if (heure) s += ' à ' + String(d.getHours()).padStart(2, '0') + ' h ' + String(d.getMinutes()).padStart(2, '0');
+      return s;
+    }
+    function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+
+    fetch('etat.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (e) {
+      var resume = document.getElementById('resume');
+      var services = e.services || [];
+
+      if (!e.ouvert) {
+        resume.className = 'summary s-idle';
+        resume.textContent = 'Le service n\'est pas encore ouvert' + (e.ouverture_prevue ? ' : premiers essais le ' + quand(e.ouverture_prevue) + '.' : '.');
+      } else {
+        var pire = 'ok';
+        services.forEach(function (s) {
+          if (s.statut === 'panne') pire = 'panne';
+          else if ((s.statut === 'degrade' || s.statut === 'maintenance') && pire !== 'panne') pire = 'degrade';
+        });
+        resume.className = 'summary ' + LIB[pire][1];
+        resume.textContent = pire === 'ok' ? 'Tous les services fonctionnent.' : pire === 'panne' ? 'Un service est interrompu.' : 'Un service est ralenti ou en maintenance.';
+      }
+
+      var box = document.getElementById('services');
+      services.forEach(function (s) {
+        var l = LIB[s.statut] || LIB.inconnu;
+        var row = el('div', 'service');
+        row.appendChild(el('span', null, s.nom));
+        row.appendChild(el('span', 'pill ' + l[1], l[0]));
+        box.appendChild(row);
+      });
+
+      if (e.disponibilite_90_jours != null) {
+        document.getElementById('dispo').textContent = 'Disponibilité sur 90 jours : ' + String(e.disponibilite_90_jours).replace('.', ',') + ' %.';
+      }
+
+      var inc = document.getElementById('incidents');
+      inc.textContent = '';
+      var list = (e.incidents || []).slice().sort(function (a, b) { return (b.debut || '').localeCompare(a.debut || ''); });
+      if (!list.length) {
+        inc.appendChild(el('p', 'empty', e.ouvert ? 'Aucun incident sur les 90 derniers jours.' : 'Aucun incident : le service n\'est pas encore ouvert.'));
+      }
+      list.forEach(function (i) {
+        var c = el('div', 'incident');
+        c.appendChild(el('h3', null, i.titre));
+        c.appendChild(el('p', 'when', 'Du ' + quand(i.debut, true) + (i.fin ? ' au ' + quand(i.fin, true) : ', en cours')));
+        if (i.detail) c.appendChild(el('p', null, i.detail));
+        inc.appendChild(c);
+      });
+
+      if (e.mis_a_jour) {
+        document.getElementById('maj').textContent = 'Mis à jour le ' + quand(e.mis_a_jour, true) + ' par la console de supervision.';
+        if (e.ouvert && Date.now() - new Date(e.mis_a_jour).getTime() > 15 * 60 * 1000) document.getElementById('perime').hidden = false;
+      }
+    }).catch(function () {
+      var r = document.getElementById('resume');
+      r.className = 'summary s-idle';
+      r.textContent = 'L\'état n\'a pas pu être chargé.';
+      document.getElementById('incidents').textContent = '';
+    });
+  })();
+</script>
+</body>
+</html>
