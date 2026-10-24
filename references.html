@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Références · Itinéos</title>
+<meta name="description" content="Les installateurs qui utilisent Itinéos, avec leur accord écrit, et ce qu'ils en mesurent : fiches signées sur place, envoyées le jour même, facturées plus vite.">
+<meta name="theme-color" content="#14181F">
+<link rel="icon" href="img/icone.svg" type="image/svg+xml">
+<link rel="icon" href="img/icone-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/icone-192.png">
+<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: Archivo; src: url(fonts/archivo.woff2) format('woff2'); font-weight: 600 800; font-display: swap; }
+  @font-face { font-family: 'IBM Plex Sans'; src: url(fonts/ibm-plex-sans.woff2) format('woff2'); font-weight: 400 600; font-display: swap; }
+  :root {
+    --ink: #14181F; --ink-2: #232934; --ground: #F4F2EE; --ground-2: #EAE6DE; --card: #FFFFFF;
+    --rule: #DDD8CF; --muted: #5B616B; --signal: #F97316; --accent: #C2410C; --accent-text: #9A3412;
+    --ok: #166534; --ok-bg: #E3F1E6; --warn: #854D0E; --warn-bg: #FBF0D5; --bad: #991B1B; --bad-bg: #FBE4E4;
+    --idle: #4B5260; --idle-bg: #E9E7E2;
+    --radius: 12px; --wrap: 880px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 17px/1.6 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: Archivo, system-ui, sans-serif; line-height: 1.15; letter-spacing: -0.01em; margin: 0; }
+  h1 { font-weight: 800; font-size: clamp(30px, 4.6vw, 46px); }
+  h2 { font-weight: 800; font-size: 24px; margin-bottom: 16px; }
+  p { margin: 0; }
+  a { color: var(--accent-text); }
+  a:focus-visible, .btn:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 32px; } }
+  section { padding: 40px 0; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 16px; border-radius: 10px; font: 600 15px/1.3 'IBM Plex Sans', sans-serif; text-decoration: none; background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+
+  header { background: var(--ink); border-bottom: 1px solid var(--ink-2); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; max-width: 1120px; }
+  header img { height: 52px; width: auto; display: block; margin-left: -8px; }
+  header nav { display: none; gap: 24px; }
+  header nav a { color: var(--ground); text-decoration: none; font-weight: 500; font-size: 15px; opacity: 0.85; }
+  header nav a[aria-current] { opacity: 1; }
+  @media (min-width: 900px) { header nav { display: flex; } }
+
+  .hero { background: var(--ink); color: var(--ground); padding: 44px 0 48px; }
+  .hero .lead { margin-top: 16px; font-size: 18px; color: #D5D1C9; max-width: 640px; }
+  .refs { display: grid; gap: 16px; }
+  .ref { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 24px; display: grid; gap: 14px; }
+  .ref-head { display: flex; align-items: center; gap: 16px; }
+  .ref-head img { max-height: 48px; max-width: 140px; width: auto; }
+  .ref-head h3 { font-size: 20px; }
+  .ref-head .city { color: var(--muted); font-size: 15px; }
+  blockquote { margin: 0; padding: 0 0 0 16px; border-left: 3px solid var(--signal); font-size: 18px; }
+  blockquote cite { display: block; margin-top: 6px; font-style: normal; font-size: 14.5px; color: var(--muted); }
+  .figures { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+  .figure { background: var(--ground); border-radius: 10px; padding: 12px 14px; }
+  .figure b { display: block; font-family: Archivo, sans-serif; font-size: 24px; }
+  .figure span { font-size: 14.5px; color: var(--muted); }
+  .note { font-size: 14.5px; color: var(--muted); }
+  .empty { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 24px; display: grid; gap: 14px; }
+  .rules { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+  footer { background: var(--ink); color: #A9AEB6; padding: 36px 0; font-size: 14.5px; margin-top: 32px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; max-width: 1120px; }
+  footer img { height: 36px; width: auto; }
+  footer a { color: var(--ground); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" aria-label="Itinéos, page d'accueil"><img src="img/logo.svg" alt="Itinéos" width="160" height="40"></a>
+    <nav aria-label="Sommaire">
+      <a href="index.html#prix">Prix</a>
+      <a href="garanties.html">Garanties</a>
+      <a href="references.html" aria-current="page">Références</a>
+      <a href="etat.html">État du service</a>
+    </nav>
+    <a class="btn" href="index.html#contact">Démonstration</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Références</h1>
+      <p class="lead">Des installateurs qui utilisent Itinéos, et ce qu'ils en mesurent. Chaque référence est publiée avec l'accord écrit du client, qui peut le retirer à tout moment.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="refs" id="refs"><p class="note">Chargement…</p></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <h2>Comment ces références sont faites</h2>
+      <ul class="rules">
+        <li>Rien n'est publié sans l'accord écrit du client, signé dans Itinéos par sa direction. Il choisit ce qui est montré : nom, logo, ville, chiffres, citation, contact.</li>
+        <li>Les chiffres sont <strong>mesurés</strong> dans Itinéos sur ses données (fiches signées, délais d'envoi, facturation). Le temps gagné, lui, est l'estimation de ses utilisateurs, et c'est écrit comme tel.</li>
+        <li>Pas de faux avis, pas de témoignage inventé : s'il n'y a pas encore de référence, cette page le dit.</li>
+        <li>Si le client retire son accord, sa référence disparaît de cette page dans l'heure.</li>
+      </ul>
+    </div>
+  </section>
+  <noscript><div class="wrap"><p>Activez JavaScript pour voir les références.</p></div></noscript>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo.svg" alt="Itinéos" width="144" height="36">
+    <p><a href="garanties.html">Garanties</a> · <a href="index.html#mentions">Mentions légales</a> · © 2026 Itinéos</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    function quand(iso) {
+      var d = new Date(iso + 'T12:00:00');
+      if (isNaN(d)) return '';
+      return d.getDate() + (d.getDate() === 1 ? 'er ' : ' ') + mois[d.getMonth()] + ' ' + d.getFullYear();
+    }
+    function nb(v) { return String(v).replace('.', ','); }
+    function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+    function figure(box, value, label) {
+      if (value == null) return;
+      var f = el('div', 'figure');
+      f.appendChild(el('b', null, value));
+      f.appendChild(el('span', null, label));
+      box.appendChild(f);
+    }
+    // Publié par la console de supervision (accords des clients, choisis par l'éditeur) sur la branche « etat »
+    var LIVE = 'https://raw.githubusercontent.com/mongeneral89/itineos.fr/etat/references.json?t=' + Math.floor(Date.now() / 60000);
+    var box = document.getElementById('refs');
+
+    function vide() {
+      box.textContent = '';
+      var e = el('div', 'empty');
+      e.appendChild(el('h3', null, 'Aucune référence publiée pour l\'instant.'));
+      e.appendChild(el('p', null, 'Les premiers essais commencent le 11 janvier 2027. Les cinq installateurs fondateurs seront les premières références d\'Itinéos dans le métier : leurs chiffres et leurs mots apparaîtront ici, avec leur accord.'));
+      var a = el('a', 'btn', 'Devenir installateur fondateur');
+      a.href = 'index.html#fondateurs';
+      a.style.justifySelf = 'start';
+      e.appendChild(a);
+      box.appendChild(e);
+    }
+
+    fetch(LIVE, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (data) {
+      var refs = (data && data.references) || [];
+      if (!refs.length) return vide();
+      box.textContent = '';
+      refs.forEach(function (r) {
+        var card = el('article', 'ref');
+        var head = el('div', 'ref-head');
+        if (r.logo && /^data:image\/(png|jpeg);base64,/.test(r.logo)) {
+          var img = el('img');
+          img.src = r.logo;
+          img.alt = r.name ? 'Logo ' + r.name : '';
+          head.appendChild(img);
+        }
+        var t = el('div');
+        t.appendChild(el('h3', null, r.name || 'Installateur de sécurité électronique'));
+        var sub = [r.city, 'utilise Itinéos depuis le ' + quand((r.figures && r.figures.from) || r.since)].filter(Boolean).join(' · ');
+        t.appendChild(el('p', 'city', sub));
+        head.appendChild(t);
+        card.appendChild(head);
+
+        if (r.quote) {
+          var q = el('blockquote', null, '« ' + r.quote + ' »');
+          if (r.signer) q.appendChild(el('cite', null, r.signer));
+          card.appendChild(q);
+        }
+        var f = r.figures;
+        if (f && f.reportsSigned > 0) {
+          var g = el('div', 'figures');
+          figure(g, String(f.reportsSigned), 'fiches signées en ' + f.weeks + ' semaine' + (f.weeks > 1 ? 's' : ''));
+          figure(g, f.clientSignedRate != null ? nb(f.clientSignedRate) + ' %' : null, 'signées par le client sur place');
+          figure(g, f.sentSameDayRate != null ? nb(f.sentSameDayRate) + ' %' : null, 'envoyées au client le jour même');
+          figure(g, f.medianInvoiceDelayDays != null ? nb(f.medianInvoiceDelayDays) + ' j' : null, 'entre la fiche signée et la facture (médiane)');
+          figure(g, f.firstTimeFixRate != null ? nb(f.firstTimeFixRate) + ' %' : null, 'réglé au premier passage');
+          if (f.feedback && f.feedback.count) figure(g, nb(f.feedback.recommendAvg) + '/10', 'recommandation par ' + f.feedback.count + ' utilisateur' + (f.feedback.count > 1 ? 's' : ''));
+          card.appendChild(g);
+          var n = 'Mesuré dans Itinéos sur ses données, ' + f.activeTechnicians + ' technicien' + (f.activeTechnicians > 1 ? 's' : '') + '.';
+          if (f.feedback && f.feedback.timeSavedMedianMin != null) n += ' Temps gagné estimé par ses utilisateurs : ' + nb(Math.round(f.feedback.timeSavedMedianMin / 6) / 10) + ' h par semaine (estimation, pas une mesure).';
+          card.appendChild(el('p', 'note', n));
+        }
+        if (r.contact) card.appendChild(el('p', 'note', 'Vous voulez lui poser vos questions ? ' + r.contact));
+        box.appendChild(card);
+      });
+    }).catch(vide);
+  })();
+</script>
+</body>
+</html>
