@@ -2,11 +2,24 @@
   "mis_a_jour": null,
   "ouvert": false,
   "ouverture_prevue": "2027-01-11",
+  "message": null,
   "services": [
-    { "nom": "Appli du technicien (synchronisation)", "statut": "pas_ouvert" },
-    { "nom": "Bureau : planning, devis, factures", "statut": "pas_ouvert" },
-    { "nom": "Espace client", "statut": "pas_ouvert" },
-    { "nom": "Envoi des PDF et des e-mails", "statut": "pas_ouvert" }
+    {
+      "nom": "Appli du technicien (synchronisation)",
+      "statut": "pas_ouvert"
+    },
+    {
+      "nom": "Bureau : planning, devis, factures",
+      "statut": "pas_ouvert"
+    },
+    {
+      "nom": "Espace client",
+      "statut": "pas_ouvert"
+    },
+    {
+      "nom": "Envoi des PDF et des e-mails",
+      "statut": "pas_ouvert"
+    }
   ],
   "disponibilite_90_jours": null,
   "incidents": []
