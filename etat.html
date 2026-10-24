@@ -92,7 +92,8 @@
       <h1>État du service</h1>
       <div class="summary s-idle" id="resume" role="status">Chargement…</div>
       <p class="meta" id="maj"></p>
-      <div class="stale" id="perime" hidden>Ces informations ont plus de 15 minutes : la console de supervision ne les a pas mises à jour. Si vous rencontrez un problème, appelez le 06 82 01 16 24.</div>
+      <div class="stale" id="message" hidden></div>
+      <div class="stale" id="perime" hidden>Ces informations ont plus de 30 minutes : la console de supervision ne les a pas mises à jour. Si vous rencontrez un problème, appelez le 06 82 01 16 24.</div>
     </div>
   </section>
 
@@ -141,7 +142,13 @@
     }
     function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
 
-    fetch('etat.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (e) {
+    // État publié par la console de supervision sur la branche « etat » du dépôt du site (toutes les 5 minutes
+    // et à chaque changement) ; sinon, le fichier etat.json du site (avant l'ouverture)
+    var LIVE = 'https://raw.githubusercontent.com/mongeneral89/itineos.fr/etat/etat.json?t=' + Math.floor(Date.now() / 60000);
+    function load(url) {
+      return fetch(url, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+    }
+    load(LIVE).catch(function () { return load('etat.json'); }).then(function (e) {
       var resume = document.getElementById('resume');
       var services = e.services || [];
 
@@ -149,13 +156,20 @@
         resume.className = 'summary s-idle';
         resume.textContent = 'Le service n\'est pas encore ouvert' + (e.ouverture_prevue ? ' : premiers essais le ' + quand(e.ouverture_prevue) + '.' : '.');
       } else {
+        // Le plus grave l'emporte : interrompu, puis ralenti, puis maintenance prévue
+        var rang = { ok: 0, inconnu: 0, maintenance: 1, degrade: 2, panne: 3 };
         var pire = 'ok';
-        services.forEach(function (s) {
-          if (s.statut === 'panne') pire = 'panne';
-          else if ((s.statut === 'degrade' || s.statut === 'maintenance') && pire !== 'panne') pire = 'degrade';
-        });
+        services.forEach(function (s) { if ((rang[s.statut] || 0) > rang[pire]) pire = s.statut; });
+        // Aucun service connu (installation suivie pas encore choisie dans la console) : on ne prétend rien
+        if (pire === 'ok' && services.some(function (s) { return s.statut === 'inconnu'; })) pire = 'inconnu';
         resume.className = 'summary ' + LIB[pire][1];
-        resume.textContent = pire === 'ok' ? 'Tous les services fonctionnent.' : pire === 'panne' ? 'Un service est interrompu.' : 'Un service est ralenti ou en maintenance.';
+        resume.textContent = {
+          inconnu: 'État momentanément indisponible.',
+          ok: 'Tous les services fonctionnent.',
+          maintenance: 'Maintenance en cours.',
+          degrade: 'Un service est ralenti.',
+          panne: 'Un service est interrompu.'
+        }[pire];
       }
 
       var box = document.getElementById('services');
@@ -166,6 +180,12 @@
         row.appendChild(el('span', 'pill ' + l[1], l[0]));
         box.appendChild(row);
       });
+
+      if (e.message) {
+        var m = document.getElementById('message');
+        m.textContent = e.message;
+        m.hidden = false;
+      }
 
       if (e.disponibilite_90_jours != null) {
         document.getElementById('dispo').textContent = 'Disponibilité sur 90 jours : ' + String(e.disponibilite_90_jours).replace('.', ',') + ' %.';
@@ -187,7 +207,7 @@
 
       if (e.mis_a_jour) {
         document.getElementById('maj').textContent = 'Mis à jour le ' + quand(e.mis_a_jour, true) + ' par la console de supervision.';
-        if (e.ouvert && Date.now() - new Date(e.mis_a_jour).getTime() > 15 * 60 * 1000) document.getElementById('perime').hidden = false;
+        if (e.ouvert && Date.now() - new Date(e.mis_a_jour).getTime() > 30 * 60 * 1000) document.getElementById('perime').hidden = false;
       }
     }).catch(function () {
       var r = document.getElementById('resume');
