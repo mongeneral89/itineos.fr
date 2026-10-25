@@ -157,6 +157,16 @@
   @media (min-width: 900px) { .more { grid-template-columns: repeat(2, 1fr); } }
   .more .point { background: var(--ground-2); }
   .more .point p + p { margin-top: 8px; }
+  .shots { display: grid; gap: 16px; margin-top: 36px; align-items: start; grid-template-columns: 1fr 1fr; }
+  .shots .desk { grid-column: 1 / -1; }
+  @media (min-width: 1040px) { .shots { grid-template-columns: 0.55fr 0.55fr 1.9fr; gap: 22px; } .shots .desk { grid-column: auto; } }
+  .shot { margin: 0; }
+  .shot a { display: block; }
+  .shot img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 18px; background: #fff; box-shadow: 0 12px 32px rgba(20, 24, 31, 0.12); }
+  .shot.desk img { border-radius: 12px; }
+  .shot figcaption { color: var(--muted); font-size: 14px; margin-top: 10px; }
+  @media (min-width: 720px) { .shot figcaption { font-size: 15px; } }
+  .shots-note { color: var(--muted); font-size: 14px; margin-top: 14px; }
 
   /* Fondateurs */
   .founders { background: var(--ground-2); }
@@ -324,6 +334,22 @@
           <p>S'il se raccorde à l'interface d'Itinéos, ses défauts techniques (secteur, batterie, test cyclique) créent directement l'intervention chez vous. Et il est prévenu quand le technicien arrive sur le site et quand il repart.</p>
         </div>
       </div>
+
+      <div class="shots">
+        <figure class="shot">
+          <a href="captures/journee.webp" target="_blank" rel="noopener"><img src="captures/journee.webp" width="585" height="1266" loading="lazy" alt="Appli du technicien sur téléphone : la journée du lundi, avec la prochaine intervention, une maintenance préventive à 8 h, et les suivantes."></a>
+          <figcaption>La journée du technicien, sur son téléphone.</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="captures/fiche.webp" target="_blank" rel="noopener"><img src="captures/fiche.webp" width="585" height="930" loading="lazy" alt="Fiche d'un dépannage ouverte sur téléphone : le client, la centrale avec sa marque et son numéro de série, et l'historique du matériel sont déjà remplis."></a>
+          <figcaption>La fiche s'ouvre déjà remplie : client, centrale, historique.</figcaption>
+        </figure>
+        <figure class="shot desk">
+          <a href="captures/planning.webp" target="_blank" rel="noopener"><img src="captures/planning.webp" width="1680" height="575" loading="lazy" alt="Planning de l'agence au bureau : les interventions du jour de deux techniciens sur une grille horaire, et la liste des interventions à planifier."></a>
+          <figcaption>Le planning de l'agence, au bureau.</figcaption>
+        </figure>
+      </div>
+      <p class="shots-note">Vraies captures d'Itinéos, prises sur la société de démonstration : les noms et les adresses sont fictifs.</p>
     </div>
   </section>
 
