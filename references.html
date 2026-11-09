@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Références · Itinéos</title>
-<meta name="description" content="Les installateurs qui utilisent Itinéos, avec leur accord écrit, et ce qu'ils en mesurent : fiches signées sur place, envoyées le jour même.">
+<meta name="description" content="Les entreprises qui utilisent Itinéos, avec leur accord écrit, et ce qu'elles en mesurent : fiches signées sur place, envoyées le jour même.">
 <link rel="canonical" href="https://itineos.fr/references.html">
 <meta name="theme-color" content="#14181F">
 <link rel="icon" href="img/icone.svg" type="image/svg+xml">
@@ -85,7 +85,7 @@
   <section class="hero">
     <div class="wrap">
       <h1>Références</h1>
-      <p class="lead">Des installateurs qui utilisent Itinéos, et ce qu'ils en mesurent. Chaque référence est publiée avec l'accord écrit du client, qui peut le retirer à tout moment.</p>
+      <p class="lead">Des entreprises qui utilisent Itinéos, et ce qu'elles en mesurent. Chaque référence est publiée avec l'accord écrit du client, qui peut le retirer à tout moment.</p>
     </div>
   </section>
 
@@ -141,7 +141,7 @@
       box.textContent = '';
       var e = el('div', 'empty');
       e.appendChild(el('h3', null, 'Aucune référence publiée pour l\'instant.'));
-      e.appendChild(el('p', null, 'Les premiers essais commencent le 11 janvier 2027. Les installateurs de l\'offre de lancement seront les premières références d\'Itinéos dans le métier : leurs chiffres et leurs mots apparaîtront ici, avec leur accord.'));
+      e.appendChild(el('p', null, 'Les premiers essais commencent le 11 janvier 2027. Les entreprises de l\'offre de lancement seront les premières références d\'Itinéos dans le métier : leurs chiffres et leurs mots apparaîtront ici, avec leur accord.'));
       var a = el('a', 'btn', 'Voir l\'offre de lancement');
       a.href = 'index.html#lancement';
       a.style.justifySelf = 'start';
@@ -163,7 +163,7 @@
           head.appendChild(img);
         }
         var t = el('div');
-        t.appendChild(el('h3', null, r.name || 'Installateur de sécurité électronique'));
+        t.appendChild(el('h3', null, r.name || 'Entreprise cliente'));
         var sub = [r.city, 'utilise Itinéos depuis le ' + quand((r.figures && r.figures.from) || r.since)].filter(Boolean).join(' · ');
         t.appendChild(el('p', 'city', sub));
         head.appendChild(t);
