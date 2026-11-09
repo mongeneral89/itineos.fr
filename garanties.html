@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Garanties · Itinéos</title>
-<meta name="description" content="Ce que le contrat Itinéos vous garantit, avec les preuves : dépôt du code source, support de secours, dernière restauration de sauvegarde réussie, délai de réponse mesuré.">
+<meta name="description" content="Ce que le contrat Itinéos vous garantit, avec les preuves : dernière restauration de sauvegarde réussie, délai de réponse mesuré.">
 <link rel="canonical" href="https://itineos.fr/garanties.html">
 <meta name="theme-color" content="#14181F">
 <link rel="icon" href="img/icone.svg" type="image/svg+xml">
@@ -106,7 +106,7 @@
   <section>
     <div class="wrap">
       <p class="eyebrow">Ce que votre contrat garantit</p>
-      <h2>Quatre engagements écrits.</h2>
+      <h2>Trois engagements écrits.</h2>
       <div class="grid">
         <div class="card">
           <h3>Vos données vous appartiennent</h3>
@@ -120,10 +120,6 @@
           <h3>Hébergé en France, ou chez vous</h3>
           <p>Serveur en France avec une sauvegarde chaque nuit. Ou installé sur un serveur dans vos locaux, si vous préférez.</p>
         </div>
-        <div class="card">
-          <h3>Si l'éditeur s'arrête</h3>
-          <p>Le code source est déposé chez un tiers de confiance et vous est remis si l'éditeur cesse son activité. Un support de secours est nommé dans votre contrat.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -132,17 +128,9 @@
     <div class="wrap">
       <p class="eyebrow">Les preuves</p>
       <h2>Ce que vous pouvez vérifier aujourd'hui.</h2>
-      <p class="lead">Tant que le service n'est pas ouvert, ces quatre valeurs sont écrites à la main, d'après ce qui est réellement signé ou mesuré. Ensuite, la console de supervision d'Itinéos les publiera elle-même.</p>
+      <p class="lead">Tant que le service n'est pas ouvert, ces deux valeurs sont écrites à la main, d'après ce qui est réellement signé ou mesuré. Ensuite, la console de supervision d'Itinéos les publiera elle-même.</p>
 
       <div class="grid" id="preuves" aria-live="polite">
-        <div class="card proof" id="p-sequestre">
-          <h3>Dépôt du code source</h3>
-          <span class="value">…</span><span class="detail"></span>
-        </div>
-        <div class="card proof" id="p-secours">
-          <h3>Support de secours</h3>
-          <span class="value">…</span><span class="detail"></span>
-        </div>
         <div class="card proof" id="p-restauration">
           <h3>Dernière restauration réussie</h3>
           <span class="value">…</span><span class="detail"></span>
@@ -190,22 +178,6 @@
     function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
 
     fetch('garanties.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (g) {
-      var s = g.sequestre || {};
-      if (s.statut === 'signe' && s.tiers) {
-        var html = 'Chez ' + esc(s.tiers) + (s.depose_le ? ', dernière version déposée le ' + esc(date(s.depose_le)) : '') + '.';
-        if (s.attestation_url) html += ' <a href="' + esc(s.attestation_url) + '">Voir l\'attestation</a>';
-        fill('p-sequestre', 'Déposé', null, true, html);
-      } else {
-        fill('p-sequestre', 'Pas encore signé', 'Le contrat de dépôt sera signé avant les premiers essais. Le nom du tiers et l\'attestation s\'afficheront ici.', false);
-      }
-
-      var sec = g.support_secours || {};
-      if (sec.statut === 'signe' && sec.societe) {
-        fill('p-secours', sec.societe, 'Nommée dans votre contrat, elle prend le relais si l\'éditeur ne peut plus assurer le support.', true);
-      } else {
-        fill('p-secours', 'Pas encore choisi', 'La société de support de secours sera nommée ici avant les premiers essais.', false);
-      }
-
       var sv = g.sauvegarde || {};
       var dr = date(sv.derniere_restauration_reussie);
       if (dr) {
