@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Références · Itinéos</title>
-<meta name="description" content="Les installateurs qui utilisent Itinéos, avec leur accord écrit, et ce qu'ils en mesurent : fiches signées sur place, envoyées le jour même, facturées plus vite.">
+<meta name="description" content="Les installateurs qui utilisent Itinéos, avec leur accord écrit, et ce qu'ils en mesurent : fiches signées sur place, envoyées le jour même.">
 <link rel="canonical" href="https://itineos.fr/references.html">
 <meta name="theme-color" content="#14181F">
 <link rel="icon" href="img/icone.svg" type="image/svg+xml">
@@ -100,7 +100,7 @@
       <h2>Comment ces références sont faites</h2>
       <ul class="rules">
         <li>Rien n'est publié sans l'accord écrit du client, signé dans Itinéos par sa direction. Il choisit ce qui est montré : nom, logo, ville, chiffres, citation, contact.</li>
-        <li>Les chiffres sont <strong>mesurés</strong> dans Itinéos sur ses données (fiches signées, délais d'envoi, facturation). Le temps gagné, lui, est l'estimation de ses utilisateurs, et c'est écrit comme tel.</li>
+        <li>Les chiffres sont <strong>mesurés</strong> dans Itinéos sur ses données (fiches signées, délais d'envoi). Le temps gagné, lui, est l'estimation de ses utilisateurs, et c'est écrit comme tel.</li>
         <li>Pas de faux avis, pas de témoignage inventé : s'il n'y a pas encore de référence, cette page le dit.</li>
         <li>Si le client retire son accord, sa référence disparaît de cette page dans l'heure.</li>
       </ul>
@@ -141,9 +141,9 @@
       box.textContent = '';
       var e = el('div', 'empty');
       e.appendChild(el('h3', null, 'Aucune référence publiée pour l\'instant.'));
-      e.appendChild(el('p', null, 'Les premiers essais commencent le 11 janvier 2027. Les cinq installateurs fondateurs seront les premières références d\'Itinéos dans le métier : leurs chiffres et leurs mots apparaîtront ici, avec leur accord.'));
-      var a = el('a', 'btn', 'Devenir installateur fondateur');
-      a.href = 'index.html#fondateurs';
+      e.appendChild(el('p', null, 'Les premiers essais commencent le 11 janvier 2027. Les installateurs de l\'offre de lancement seront les premières références d\'Itinéos dans le métier : leurs chiffres et leurs mots apparaîtront ici, avec leur accord.'));
+      var a = el('a', 'btn', 'Voir l\'offre de lancement');
+      a.href = 'index.html#lancement';
       a.style.justifySelf = 'start';
       e.appendChild(a);
       box.appendChild(e);
@@ -180,7 +180,6 @@
           figure(g, String(f.reportsSigned), 'fiches signées en ' + f.weeks + ' semaine' + (f.weeks > 1 ? 's' : ''));
           figure(g, f.clientSignedRate != null ? nb(f.clientSignedRate) + ' %' : null, 'signées par le client sur place');
           figure(g, f.sentSameDayRate != null ? nb(f.sentSameDayRate) + ' %' : null, 'envoyées au client le jour même');
-          figure(g, f.medianInvoiceDelayDays != null ? nb(f.medianInvoiceDelayDays) + ' j' : null, 'entre la fiche signée et la facture (médiane)');
           figure(g, f.firstTimeFixRate != null ? nb(f.firstTimeFixRate) + ' %' : null, 'réglé au premier passage');
           if (f.feedback && f.feedback.count) figure(g, nb(f.feedback.recommendAvg) + '/10', 'recommandation par ' + f.feedback.count + ' utilisateur' + (f.feedback.count > 1 ? 's' : ''));
           card.appendChild(g);
