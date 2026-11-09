@@ -6,6 +6,15 @@
 <title>Références · Itinéos</title>
 <meta name="description" content="Les entreprises qui utilisent Itinéos, avec leur accord écrit, et ce qu'elles en mesurent : fiches signées sur place, envoyées le jour même.">
 <link rel="canonical" href="https://itineos.fr/references.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Références · Itinéos">
+<meta property="og:description" content="Les entreprises qui utilisent Itinéos, avec leur accord écrit.">
+<meta property="og:url" content="https://itineos.fr/references.html">
+<meta property="og:image" content="https://itineos.fr/img/partage.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#14181F">
 <link rel="icon" href="img/icone.svg" type="image/svg+xml">
 <link rel="icon" href="img/icone-32.png" sizes="32x32" type="image/png">
@@ -112,7 +121,7 @@
 <footer>
   <div class="wrap">
     <img src="img/logo.svg" alt="Itinéos" width="144" height="36">
-    <p><a href="garanties.html">Garanties</a> · <a href="index.html#mentions">Mentions légales</a> · © 2026 Itinéos</p>
+    <p><a href="garanties.html">Garanties</a> · <a href="index.html#mentions">Mentions légales</a> · <a href="confidentialite.html">Confidentialité</a> · © 2026 Itinéos</p>
   </div>
 </footer>
 
@@ -149,7 +158,11 @@
       box.appendChild(e);
     }
 
-    fetch(LIVE, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (data) {
+    // Avant l'ouverture du service (etat.json), il n'y a pas de référence : on n'interroge pas la branche « etat ».
+    fetch('etat.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (e) {
+      if (!e.ouvert) throw new Error('pas ouvert');
+      return fetch(LIVE, { cache: 'no-store' });
+    }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (data) {
       var refs = (data && data.references) || [];
       if (!refs.length) return vide();
       box.textContent = '';
